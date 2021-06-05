@@ -1,0 +1,79 @@
+enum user_statuses {
+  admin
+  usual
+}
+
+table users {
+  id int [pk, increment]
+  name varchar(50)
+  company_name varchar(50)
+  email varchar(20)
+  phone varchar(10)
+  avatar blob(4200000)
+  password varchar(16)
+  status user_statuses
+  reg_date date
+  
+  indexes {
+    name
+    company_name
+  }
+}
+
+enum product_statuses {
+  in_stock
+  not_in_stock
+}
+
+enum measure_units {
+  g
+  kg
+  t
+  ml
+  l
+  units
+}
+
+table products {
+  id int [pk, increment]
+  seller_id int [ref: > users.id]
+  name varchar(50)
+  about text
+  status product_statuses
+  avatar blob(4200000)
+  added_on date
+  price int
+  measure_unit measure_units
+}
+
+table categories {
+  id int [pk, increment]
+  name varchar(50)
+}
+
+table category_content {
+  category_id int [ref: > categories.id]
+  product_id int [ref: > products.id]
+}
+
+enum order_statuses {
+  waiting
+  accepted
+  declined
+}
+
+table orders {
+  id int [pk, increment]
+  buyer_id int [ref: < users.id]
+  seller_id int [ref: < users.id]
+  sent_on date
+  deliver_date date
+  deliver_address varchar(50)
+  status order_statuses
+}
+
+table order_content {
+  order_id int [ref: > orders.id]
+  product_id int [ref: > products.id]
+  quantity int
+}
