@@ -54,9 +54,9 @@ ALTER TABLE `category_content` ADD FOREIGN KEY (`category_id`) REFERENCES `categ
 
 ALTER TABLE `category_content` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
-ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `orders` (`buyer_id`);
+ALTER TABLE `orders` ADD FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`);
 
-ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `orders` (`seller_id`);
+ALTER TABLE `orders` ADD FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `order_content` ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 

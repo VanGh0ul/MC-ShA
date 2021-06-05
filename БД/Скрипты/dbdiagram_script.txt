@@ -44,6 +44,10 @@ table products {
   added_on date
   price int
   measure_unit measure_units
+  
+  indexes {
+    name
+  }
 }
 
 table categories {
@@ -64,8 +68,8 @@ enum order_statuses {
 
 table orders {
   id int [pk, increment]
-  buyer_id int [ref: < users.id]
-  seller_id int [ref: < users.id]
+  buyer_id int [ref: > users.id]
+  seller_id int [ref: > users.id]
   sent_on date
   deliver_date date
   deliver_address varchar(50)
