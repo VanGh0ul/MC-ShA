@@ -65,6 +65,7 @@ enum order_statuses {
   waiting
   accepted
   declined
+  delivered
 }
 
 table orders {

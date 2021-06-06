@@ -39,7 +39,7 @@ CREATE TABLE `orders` (
   `sent_on` date,
   `deliver_date` date,
   `deliver_address` varchar(50),
-  `status` ENUM ('editing', 'waiting', 'accepted', 'declined')
+  `status` ENUM ('editing', 'waiting', 'accepted', 'declined', 'delivered')
 );
 
 CREATE TABLE `order_content` (
