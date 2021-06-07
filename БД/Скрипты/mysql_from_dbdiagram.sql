@@ -1,28 +1,44 @@
-CREATE TABLE `users` (
+CREATE TABLE `user_status` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(20)
+);
+
+CREATE TABLE `user` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(50),
   `company_name` varchar(50),
   `email` varchar(20),
-  `phone` varchar(10),
+  `phone` varchar(12),
   `avatar` blob(4200000),
   `password` varchar(16),
-  `status` ENUM ('admin', 'usual'),
+  `status` int,
   `reg_date` date
 );
 
-CREATE TABLE `products` (
+CREATE TABLE `product_status` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(30)
+);
+
+CREATE TABLE `measure_unit_type` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(30)
+);
+
+CREATE TABLE `product` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `seller_id` int,
   `name` varchar(50),
   `about` text,
-  `status` ENUM ('in_stock', 'not_in_stock'),
-  `avatar` blob(4200000),
+  `status` int,
+  `img` blob(4200000),
   `added_on` date,
+  `modified_on` date,
   `price` int,
-  `measure_unit` ENUM ('g', 'kg', 't', 'ml', 'l', 'units')
+  `measure_unit` int
 );
 
-CREATE TABLE `categories` (
+CREATE TABLE `category` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(50)
 );
@@ -32,38 +48,58 @@ CREATE TABLE `category_content` (
   `product_id` int
 );
 
-CREATE TABLE `orders` (
+CREATE TABLE `order_status` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(50)
+);
+
+CREATE TABLE `buy_order` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `buyer_id` int,
   `seller_id` int,
+  `deleted_by_buyer` bool DEFAULT false,
+  `deleted_by_seller` bool DEFAULT false,
   `sent_on` date,
   `deliver_date` date,
   `deliver_address` varchar(50),
-  `status` ENUM ('editing', 'waiting', 'accepted', 'declined', 'delivered')
+  `status` int
 );
 
 CREATE TABLE `order_content` (
   `order_id` int,
   `product_id` int,
-  `quantity` int
+  `quantity` int,
+  `product_name` varchar(50),
+  `product_price` int,
+  `product_measure_unit` int
 );
 
-ALTER TABLE `products` ADD FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`);
+ALTER TABLE `user` ADD FOREIGN KEY (`status`) REFERENCES `user_status` (`id`);
 
-ALTER TABLE `category_content` ADD FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+ALTER TABLE `product` ADD FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`);
 
-ALTER TABLE `category_content` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE `product` ADD FOREIGN KEY (`status`) REFERENCES `product_status` (`id`);
 
-ALTER TABLE `orders` ADD FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`);
+ALTER TABLE `product` ADD FOREIGN KEY (`measure_unit`) REFERENCES `measure_unit_type` (`id`);
 
-ALTER TABLE `orders` ADD FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`);
+ALTER TABLE `category_content` ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
-ALTER TABLE `order_content` ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
+ALTER TABLE `category_content` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
-ALTER TABLE `order_content` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE `buy_order` ADD FOREIGN KEY (`buyer_id`) REFERENCES `user` (`id`);
 
-CREATE INDEX `users_index_0` ON `users` (`name`);
+ALTER TABLE `buy_order` ADD FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`);
 
-CREATE INDEX `users_index_1` ON `users` (`company_name`);
+ALTER TABLE `buy_order` ADD FOREIGN KEY (`status`) REFERENCES `order_status` (`id`);
 
-CREATE INDEX `products_index_2` ON `products` (`name`);
+ALTER TABLE `order_content` ADD FOREIGN KEY (`order_id`) REFERENCES `buy_order` (`id`);
+
+ALTER TABLE `order_content` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+
+ALTER TABLE `order_content` ADD FOREIGN KEY (`product_measure_unit`) REFERENCES `measure_unit_type` (`id`);
+
+CREATE INDEX `user_index_0` ON `user` (`name`);
+
+CREATE INDEX `user_index_1` ON `user` (`company_name`);
+
+CREATE INDEX `product_index_2` ON `product` (`name`);

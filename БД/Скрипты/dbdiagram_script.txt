@@ -3,15 +3,20 @@ enum user_statuses {
   usual
 }
 
-table users {
+table user_status {
+  id int [pk, increment]
+  name varchar(20)
+}
+
+table user {
   id int [pk, increment]
   name varchar(50)
   company_name varchar(50)
   email varchar(20)
-  phone varchar(10)
+  phone varchar(12)
   avatar blob(4200000)
   password varchar(16)
-  status user_statuses
+  status int [ref: > user_status.id]
   reg_date date
   
   indexes {
@@ -34,52 +39,75 @@ enum measure_units {
   units
 }
 
-table products {
+table product_status {
   id int [pk, increment]
-  seller_id int [ref: > users.id]
+  name varchar(30)
+}
+
+table measure_unit_type {
+  id int [pk, increment]
+  name varchar(30)
+}
+
+
+table product {
+  id int [pk, increment]
+  seller_id int [ref: > user.id]
   name varchar(50)
   about text
-  status product_statuses
-  avatar blob(4200000)
+  status int [ref: > product_status.id]
+  img blob(4200000)
   added_on date
+  modified_on date
   price int
-  measure_unit measure_units
+  measure_unit int [ref: > measure_unit_type.id]
   
   indexes {
     name
   }
 }
 
-table categories {
+table category {
   id int [pk, increment]
   name varchar(50)
 }
 
 table category_content {
-  category_id int [ref: > categories.id]
-  product_id int [ref: > products.id]
+  category_id int [ref: > category.id]
+  product_id int [ref: > product.id]
 }
 
 enum order_statuses {
-  editing
-  waiting
   accepted
   declined
+  waiting
+  editing
   delivered
+  canceled
 }
 
-table orders {
+table order_status {
   id int [pk, increment]
-  buyer_id int [ref: > users.id]
-  seller_id int [ref: > users.id]
+  name varchar(50)
+}
+
+table buy_order {
+  id int [pk, increment]
+  buyer_id int [ref: > user.id]
+  seller_id int [ref: > user.id]
+  deleted_by_buyer bool [default: false]
+  deleted_by_seller bool [default: false]
   sent_on date
   deliver_date date
   deliver_address varchar(50)
-  status order_statuses
+  status int [ref: > order_status.id]
 }
 
 table order_content {
-  order_id int [ref: > orders.id]
-  product_id int [ref: > products.id]
+  order_id int [ref: > buy_order.id]
+  product_id int [ref: > product.id]
   quantity int
+  product_name varchar(50)
+  product_price int
+  product_measure_unit int [ref: > measure_unit_type.id]
 }
