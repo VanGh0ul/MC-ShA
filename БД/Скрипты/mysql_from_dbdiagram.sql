@@ -60,7 +60,8 @@ CREATE TABLE `buy_order` (
   `sent_on` date,
   `deliver_date` date,
   `deliver_address` varchar(50),
-  `status` int
+  `status` int,
+  `order_price` int
 );
 
 CREATE TABLE `order_content` (
@@ -69,7 +70,8 @@ CREATE TABLE `order_content` (
   `quantity` int,
   `product_name` varchar(50),
   `product_price` int,
-  `product_measure_unit` varchar(30)
+  `product_measure_unit` varchar(30),
+  `all_quantity_price` int
 );
 
 ALTER TABLE `user` ADD FOREIGN KEY (`status`) REFERENCES `user_status` (`id`);
