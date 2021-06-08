@@ -99,6 +99,7 @@ table buy_order {
   deliver_date date
   deliver_address varchar(50)
   status int [ref: > order_status.id]
+  order_sum int
 }
 
 table order_content {
@@ -108,4 +109,5 @@ table order_content {
   product_name varchar(50)
   product_price int
   product_measure_unit varchar(30)
+  pos_sum int
 }

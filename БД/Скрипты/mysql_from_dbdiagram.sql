@@ -61,7 +61,7 @@ CREATE TABLE `buy_order` (
   `deliver_date` date,
   `deliver_address` varchar(50),
   `status` int,
-  `order_price` int
+  `order_sum` int
 );
 
 CREATE TABLE `order_content` (
@@ -71,7 +71,7 @@ CREATE TABLE `order_content` (
   `product_name` varchar(50),
   `product_price` int,
   `product_measure_unit` varchar(30),
-  `all_quantity_price` int
+  `pos_sum` int
 );
 
 ALTER TABLE `user` ADD FOREIGN KEY (`status`) REFERENCES `user_status` (`id`);
