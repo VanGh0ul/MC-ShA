@@ -95,8 +95,6 @@ table buy_order {
   id int [pk, increment]
   buyer_id int [ref: > user.id]
   seller_id int [ref: > user.id]
-  deleted_by_buyer bool [default: false]
-  deleted_by_seller bool [default: false]
   sent_on date
   deliver_date date
   deliver_address varchar(50)
@@ -109,5 +107,5 @@ table order_content {
   quantity int
   product_name varchar(50)
   product_price int
-  product_measure_unit int [ref: > measure_unit_type.id]
+  product_measure_unit varchar(30)
 }

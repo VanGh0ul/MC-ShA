@@ -57,8 +57,6 @@ CREATE TABLE `buy_order` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `buyer_id` int,
   `seller_id` int,
-  `deleted_by_buyer` bool DEFAULT false,
-  `deleted_by_seller` bool DEFAULT false,
   `sent_on` date,
   `deliver_date` date,
   `deliver_address` varchar(50),
@@ -71,7 +69,7 @@ CREATE TABLE `order_content` (
   `quantity` int,
   `product_name` varchar(50),
   `product_price` int,
-  `product_measure_unit` int
+  `product_measure_unit` varchar(30)
 );
 
 ALTER TABLE `user` ADD FOREIGN KEY (`status`) REFERENCES `user_status` (`id`);
@@ -95,8 +93,6 @@ ALTER TABLE `buy_order` ADD FOREIGN KEY (`status`) REFERENCES `order_status` (`i
 ALTER TABLE `order_content` ADD FOREIGN KEY (`order_id`) REFERENCES `buy_order` (`id`);
 
 ALTER TABLE `order_content` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
-
-ALTER TABLE `order_content` ADD FOREIGN KEY (`product_measure_unit`) REFERENCES `measure_unit_type` (`id`);
 
 CREATE INDEX `user_index_0` ON `user` (`name`);
 
