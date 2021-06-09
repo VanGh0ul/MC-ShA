@@ -1,4 +1,4 @@
-CREATE TABLE `user_status` (
+CREATE TABLE `user_role` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(20)
 );
@@ -11,7 +11,7 @@ CREATE TABLE `user` (
   `phone` varchar(12),
   `avatar` blob(4200000),
   `password` varchar(16),
-  `status` int,
+  `role` int COMMENT 'on delete restrict, on update restrict',
   `reg_date` date
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE `measure_unit_type` (
 
 CREATE TABLE `product` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `seller_id` int,
+  `seller_id` int COMMENT 'on delete restrict, on update restrict',
   `name` varchar(50),
   `about` text,
   `status` int,
@@ -35,7 +35,7 @@ CREATE TABLE `product` (
   `added_on` date,
   `modified_on` date,
   `price` int,
-  `measure_unit` int
+  `measure_unit` int COMMENT 'on delete restrict, on update restrict'
 );
 
 CREATE TABLE `category` (
@@ -44,8 +44,8 @@ CREATE TABLE `category` (
 );
 
 CREATE TABLE `category_content` (
-  `category_id` int,
-  `product_id` int
+  `category_id` int COMMENT 'on delete restrict, on update restrict',
+  `product_id` int COMMENT 'on delete cascade, on update cascade'
 );
 
 CREATE TABLE `order_status` (
@@ -55,18 +55,19 @@ CREATE TABLE `order_status` (
 
 CREATE TABLE `buy_order` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `buyer_id` int,
-  `seller_id` int,
+  `buyer_id` int COMMENT 'on delete restrict, on update restrict',
+  `seller_id` int COMMENT 'on delete restrict, on update restrict',
   `sent_on` date,
   `deliver_date` date,
   `deliver_address` varchar(50),
-  `status` int,
+  `status` int COMMENT 'on delete restrict, on update restrict',
   `order_sum` int
 );
 
 CREATE TABLE `order_content` (
-  `order_id` int,
-  `product_id` int,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `order_id` int COMMENT 'on delete cascade, on update cascade',
+  `product_id` int COMMENT 'on delete set null, on update set null',
   `quantity` int,
   `product_name` varchar(50),
   `product_price` int,
@@ -74,7 +75,7 @@ CREATE TABLE `order_content` (
   `pos_sum` int
 );
 
-ALTER TABLE `user` ADD FOREIGN KEY (`status`) REFERENCES `user_status` (`id`);
+ALTER TABLE `user` ADD FOREIGN KEY (`role`) REFERENCES `user_role` (`id`);
 
 ALTER TABLE `product` ADD FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`);
 
