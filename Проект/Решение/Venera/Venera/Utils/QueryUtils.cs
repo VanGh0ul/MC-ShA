@@ -17,7 +17,7 @@ namespace Venera.Utils {
 				"Database=marketplace;"+
 				"port=3306;"+
 				"User Id=root;"+
-				"password=fkby2002"	
+				"password=root"	
 			);
 
 		}
