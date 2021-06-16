@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Venera.Utils;
 using Venera.Forms;
 
+
+using System.Windows.Forms;
+
 namespace Venera.Adapters {
 	public class UserDataAdapter {
 
@@ -15,20 +18,21 @@ namespace Venera.Adapters {
 		public string Email { get; private set; }
 		public DateTime RegDate { get; private set; }
 		public Stack<DynForm> History { get; private set;}
-		// public OrganizationDataAdapter Organization { get; private set; }
+		public OrganizationDataAdapter Organization { get; set; }
 
 		public UserDataAdapter(MySqlConnection conn) {
 			Conn = conn;
 			History = new Stack<DynForm>();
 		}
 
-		// Регистрация пользователя
+													// Регистрация пользователя
 		public void Register(string name, string email, string pass) {
 			
-			// Зашифровать пароль
+													// Зашифровать пароль
 			string HashedPas = QueryUtils.GetMD5Hash(pass);
 
-			// Запрос для получения ид роли обычного пользователя
+													// Запрос для получения ид 
+													// роли обычного пользователя
 			MySqlCommand GetRoleIdQuery = Conn.CreateCommand();
 			GetRoleIdQuery.CommandText = "select id from user_role where name = 'usual'";
 
@@ -51,7 +55,7 @@ namespace Venera.Adapters {
 				Conn.Close();
 			}
 
-			// Отправить данные
+													// Отправить данные
 			MySqlCommand InsertQuery = Conn.CreateCommand();
 			InsertQuery.CommandText = 
 				"insert into user(name, email, password, role_id, reg_date)" + 
@@ -70,7 +74,7 @@ namespace Venera.Adapters {
 			Conn.Close();
 		}
 
-		// Авторизация пользователя
+													// Авторизация пользователя
 		public bool Auth(string email, string pass) {
 			
 			// Получение Ид пользователя
@@ -81,32 +85,83 @@ namespace Venera.Adapters {
 			GetUserIdQuery.Parameters.Add("pass", MySqlDbType.VarChar).Value = QueryUtils.GetMD5Hash(pass);
 
 			bool Result = false;
+			int Temp;
 
 			Conn.Open();
 
 			MySqlDataReader UserIdReader = GetUserIdQuery.ExecuteReader();
 
 			if (UserIdReader.HasRows) {
-				
-				Result = true;
 
 				UserIdReader.Read();
 
-				Id = UserIdReader.GetInt32("id");
+				Temp = UserIdReader.GetInt32("id");
 
 				UserIdReader.Close();
 
+				Conn.Close();
+
 				// Получение данных пользователя
-				GetData(Id);
+				Result = GetData(Temp);
 
-			}
-
-			Conn.Close();
+			} else
+				Conn.Close();
 
 			return Result;
 		}
 
-		public void GetData(int id) {
+													// Получение данных пользователя
+		public bool GetData(int id) {
+			
+													// Составление запроса
+			MySqlCommand SelectQuery = Conn.CreateCommand();
+			SelectQuery.CommandText = 
+				"select u.name, u.email, r.name as role_name, u.reg_date, oc.organization_id " + 
+				"from " + 
+					"user u inner join user_role r on u.role_id = r.id " +
+ 					"left join organization_content oc on u.id = oc.user_id " +
+				"where u.id = @id";
+
+			SelectQuery.Parameters.Add("id", MySqlDbType.Int32).Value = id;
+
+			Conn.Open();
+
+			MySqlDataReader SelectReader = SelectQuery.ExecuteReader();
+
+			bool Result = true;
+
+			if (SelectReader.HasRows) {
+													// Если данные есть, их запись
+				SelectReader.Read();
+
+				int OrgId;
+
+				Id = id;
+				Name = SelectReader.GetString("name");
+				Role = SelectReader.GetString("role_name");
+				Email = SelectReader.GetString("email");
+				RegDate = SelectReader.GetDateTime("reg_date");
+				
+													// Если есть организация,
+													// считывание информации о ней
+				if (!SelectReader.IsDBNull(4)) {
+					/*
+					OrgId = SelectReader.GetInt32("ord_id");
+
+					
+					Organization = new OrganizationDataAdapter();
+					if (!Oganization.GetData(OrgId))
+						Organization = null;
+					*/
+				}
+
+			} else
+				Result = false;
+			
+			SelectReader.Close();
+			Conn.Close();
+
+			return Result;
 			
 		}
 

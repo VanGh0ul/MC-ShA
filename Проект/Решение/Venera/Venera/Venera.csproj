@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\OrganizationDataAdapter.cs" />
     <Compile Include="Adapters\UserDataAdapter.cs" />
     <Compile Include="FMain.cs">
       <SubType>Form</SubType>
@@ -61,8 +62,12 @@
     </Compile>
     <Compile Include="Forms\DynAuthForm.cs" />
     <Compile Include="Forms\DynForm.cs" />
+    <Compile Include="Forms\DynOrgCreationForm.cs" />
     <Compile Include="Forms\DynRegisterForm.cs" />
     <Compile Include="NewComponents\BackNextButtons.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\OpenImageString.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NewComponents\PasswordField.cs">
@@ -71,6 +76,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\QueryUtils.cs" />
+    <Compile Include="Utils\Styles.cs" />
     <EmbeddedResource Include="FMain.resx">
       <DependentUpon>FMain.cs</DependentUpon>
     </EmbeddedResource>

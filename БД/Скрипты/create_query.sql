@@ -14,7 +14,7 @@ values ("admin"), ("usual");
 create table user (
 	id int unsigned primary key auto_increment,
 	name varchar (50),
-	email varchar(20) unique,
+	email varchar(50) unique,
 	password varchar(40),
 	
 	role_id int unsigned,
@@ -32,7 +32,7 @@ create table organization(
 	index(name),
 
 	about text,
-	email varchar(20) unique,
+	email varchar(50) unique,
 	phone varchar(12),
 	avatar blob(4200000),
 	reg_date date

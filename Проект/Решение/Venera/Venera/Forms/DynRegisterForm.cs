@@ -57,39 +57,40 @@ namespace Venera.Forms {
 			BackNext.NextClick += RegistrationButtonClick;
 
 			#region Свойства компонентов
+
 			LTitle.Text = "Регистрация";
 			LTitle.AutoSize = true;
 			LTitle.Anchor = AnchorStyles.None;
 			LTitle.Font = new Font("Helvetica", 25);
 
 			LName.Text = "ФИО";
-			TextStyle(LName);
+			Styles.TextStyle(LName);
 
-			TextBoxStyle(TbName);
+			Styles.TextBoxStyle(TbName);
 
 			LEmail.Text = "Электронный адрес";
-			TextStyle(LEmail);
+			Styles.TextStyle(LEmail);
 
-			TextBoxStyle(TbEmail);
+			Styles.TextBoxStyle(TbEmail);
 
 			LPassword.Text = "Пароль";
-			TextStyle(LPassword);
+			Styles.TextStyle(LPassword);
 
-			PasswordFieldStyle(PfPassword);
+			Styles.PasswordFieldStyle(PfPassword);
 
 			LRepeatPassword.Text = "Повторите Пароль";
-			TextStyle(LRepeatPassword);
+			Styles.TextStyle(LRepeatPassword);
 
-			PasswordFieldStyle(PfRepeatPassword);
+			Styles.PasswordFieldStyle(PfRepeatPassword);
 
 			RbCreateOrganization.Text = "Создать организацию";
 			RbCreateOrganization.AutoSize = true;
-			RbCreateOrganization.Font = new Font("Helvetica", 10);
+			RbCreateOrganization.Font = Styles.TextFont;
 
 			RbCreateWorker.Text = "Работник";
 			RbCreateWorker.AutoSize = true;
-			RbCreateWorker.Font = new Font("Helvetica", 10);
-			RbCreateWorker.Top = 50;
+			RbCreateWorker.Font  = Styles.TextFont;
+			//RbCreateWorker.Top = 50;
 			RbCreateWorker.Checked = true;
 
 			FlpChoose.FlowDirection = FlowDirection.TopDown;
@@ -98,8 +99,8 @@ namespace Venera.Forms {
 			FlpChoose.Controls.Add(RbCreateOrganization);
 			FlpChoose.Controls.Add(RbCreateWorker);
 			
-			BackNext.BBack.Font = new Font("Helvetica", 10);
-			BackNext.BNext.Font = new Font("Helvetica", 10);
+			BackNext.BBack.Font = Styles.TextFont;
+			BackNext.BNext.Font = Styles.TextFont;
 			#endregion
 
 			#region Таблица
@@ -175,26 +176,6 @@ namespace Venera.Forms {
 
 			#endregion
 		}
-
-													// Вид компонентов
-		private void TextStyle(Label aLabel) {
-			aLabel.AutoSize = true;
-			aLabel.Font = new Font("Helvetica", 10);
-		}
-
-		private void TextBoxStyle(TextBox aTextBox) {
-			aTextBox.Dock = DockStyle.Fill;
-			aTextBox.Font = new Font("Helvetica", 10);
-		}
-
-		private void PasswordFieldStyle(PasswordField aPassField) {
-			aPassField.Dock = DockStyle.Fill;
-			aPassField.TextField.Font = new Font("Helvetica", 10);
-			aPassField.ViewButton.BackgroundImageLayout = ImageLayout.Zoom;
-			aPassField.ViewButton.BackgroundImage = Properties.Resources.see_password;
-		}
-
-
 													// Генерация формы регистрации
 		public override void Generate(FMain aForm) {
 
@@ -203,7 +184,7 @@ namespace Venera.Forms {
 			programForm.Controls.Clear();
 			Size FormSize = new Size(400, 500);
 			programForm.MinimumSize = FormSize;
-			//aForm.MaximumSize = FormSize;
+			aForm.MaximumSize = FormSize;
 			programForm.Size = FormSize;
 			programForm.Text = "Регистрация";
 			programForm.Controls.Add(formContent);
@@ -252,9 +233,16 @@ namespace Venera.Forms {
 													// Если выбрано "Создать рабочего"
 			if (RbCreateWorker.Checked) {
 				programForm.User.Register(Name, Email, Pass);
-				new DynAuthForm().Generate(programForm);
-			} else
-				;// new DynCreateOrganizationForm(programForm, this);
+				// Переход на форму товаров
+				// new DynProductsbandForm().Generate(aForm);
+
+				MessageBox.Show("Переход на форму ленты товаров");
+									
+													// Создать организацию
+			} else {
+				new DynOrgCreationForm().Generate(programForm, this);
+				programForm.User.History.Push(this);
+			}
 		}
 		
 													// Переход на форму авторизации

@@ -35,28 +35,29 @@ namespace Venera.Forms {
 			LRegister.Click += RegistrationFormOpenButton;
 
 			#region Свойства компонентов
+
 			LTitle.Text = "Вход";
 			LTitle.AutoSize = true;
 			LTitle.Anchor = AnchorStyles.None;
 			LTitle.Font = new Font("Helvetica", 25);
 
 			LEmail.Text = "Электронный адрес";
-			TextStyle(LEmail);
+			Styles.TextStyle(LEmail);
 
-			TextBoxStyle(TbEmail);
+			Styles.TextBoxStyle(TbEmail);
 
 			LPassword.Text = "Пароль";
-			TextStyle(LPassword);
+			Styles.TextStyle(LPassword);
 
 			PfPassword.Dock = DockStyle.Fill;
-			PfPassword.TextField.Font = new Font("Helvetica", 10);
+			PfPassword.TextField.Font = Styles.TextFont;
 			PfPassword.ViewButton.BackgroundImageLayout = ImageLayout.Zoom;
 			PfPassword.ViewButton.BackgroundImage = Properties.Resources.see_password;
 
 			BAuth.Text = "Вход";
 			BAuth.Width = 120;
 			BAuth.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-			BAuth.Font = new Font("Helvetica", 10);
+			BAuth.Font = Styles.TextFont;
 
 			LRegister.Text = "Регистрация";
 			LRegister.Font = new Font("Helvetica", 10, FontStyle.Underline);
@@ -123,19 +124,7 @@ namespace Venera.Forms {
 
 		}
 
-		// Вид компонентов
-		private void TextStyle(Label aLabel) {
-			aLabel.AutoSize = true;
-			aLabel.Font = new Font("Helvetica", 10);
-		}
-
-		private void TextBoxStyle(TextBox aTextBox) {
-			aTextBox.Dock = DockStyle.Fill;
-			aTextBox.Font = new Font("Helvetica", 10);
-		}
-
-
-		// Генерация формы авторизации
+													// Генерация формы авторизации
 		public override void Generate(FMain aForm) {
 			
 			base.Generate(aForm);
@@ -143,7 +132,7 @@ namespace Venera.Forms {
 			programForm.Controls.Clear();
 			Size FormSize = new Size(400, 400);
 			programForm.MinimumSize = FormSize;
-			//aForm.MaximumSize = FormSize;
+			aForm.MaximumSize = FormSize;
 			programForm.Size = FormSize;
 			programForm.Text = "Вход";
 			programForm.Controls.Add(formContent);
@@ -151,7 +140,7 @@ namespace Venera.Forms {
 		}
 
 
-		// Вход в систему
+													// Вход в систему
 		private void AuthButtonClick(Object s, EventArgs e) {
 
 			string Email = TbEmail.Text.Trim();
@@ -159,18 +148,21 @@ namespace Venera.Forms {
 
 			// Проверка электронной почты
 			if (!QueryUtils.CheckEmail(Email)) {
-				MessageBox.Show("Электронаня почта имеет неправильный формат");
+				MessageBox.Show("Электронная почта имеет неправильный формат");
 				return;
 			}
 
 			if (QueryUtils.CheckPassword(Pass) && programForm.User.Auth(Email, Pass))
-				MessageBox.Show("Вошел");
+				// Переход на форму товаров
+				// new DynProductsbandForm().Generate(aForm);
+
+				MessageBox.Show("Переход на форму ленты товаров");
 
 			else
-				MessageBox.Show("Не вошел");
+				MessageBox.Show("Логин/пароль введен неверно");
 		}
 
-		// Перемещение на форму регистрации
+													// Перемещение на форму регистрации
 		private void RegistrationFormOpenButton(Object s, EventArgs e) {
 			new DynRegisterForm().Generate(programForm);
 			programForm.User.History.Push(this);

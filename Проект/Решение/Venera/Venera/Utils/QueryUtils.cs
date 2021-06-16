@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Text;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
@@ -15,7 +17,7 @@ namespace Venera.Utils {
 				"Database=marketplace;"+
 				"port=3306;"+
 				"User Id=root;"+
-				"password=root"	
+				"password=fkby2002"	
 			);
 
 		}
@@ -75,6 +77,20 @@ namespace Venera.Utils {
 
 		}
 		
+		// Проверка имени организации
+		public static bool CheckOrganizationName(string name) {
+
+			return new Regex(@"^[a-zA-zа-яА-Я\s']{4,50}$").IsMatch(name);
+
+		}
+		
+		// Проверка телефона
+		public static bool CheckPhone(string phone) {
+
+			return new Regex(@"^8|(\+7)\d{10}$").IsMatch(phone);
+
+		}
+
 		// Проверка уникальности почты пользователя
 		public static bool CheckUserEmailUnique(MySqlConnection conn, string email) {
 			
@@ -97,6 +113,17 @@ namespace Venera.Utils {
 			return Result;
 		}
 
+		// Конвертирование изображения в массив байт
+		public static byte[] GetImageByteArray(Image img) {
+			byte[] ImgBytes;
 
+			using (MemoryStream ImgStream = new MemoryStream()) {
+				img.Save(ImgStream, img.RawFormat);
+				ImgBytes = ImgStream.ToArray();
+			}
+
+			return ImgBytes;
+		}
+	
 	}
 }

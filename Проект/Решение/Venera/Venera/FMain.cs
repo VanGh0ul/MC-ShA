@@ -18,7 +18,7 @@ namespace Venera {
 
 			Conn = QueryUtils.GetConnection();
 			User = new UserDataAdapter(Conn);
-
+			 
 
 		}
 
