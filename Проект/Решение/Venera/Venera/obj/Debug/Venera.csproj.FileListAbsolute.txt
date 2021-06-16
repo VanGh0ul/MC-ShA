@@ -1,0 +1,11 @@
+E:\Программирование\Internature\Venera\Venera\bin\Debug\Venera.exe.config
+E:\Программирование\Internature\Venera\Venera\obj\Debug\Venera.csprojResolveAssemblyReference.cache
+E:\Программирование\Internature\Venera\Venera\obj\Debug\Venera.FMain.resources
+E:\Программирование\Internature\Venera\Venera\obj\Debug\Venera.Properties.Resources.resources
+E:\Программирование\Internature\Venera\Venera\obj\Debug\Venera.csproj.GenerateResource.Cache
+E:\Программирование\Internature\Venera\Venera\bin\Debug\Venera.exe
+E:\Программирование\Internature\Venera\Venera\bin\Debug\Venera.pdb
+E:\Программирование\Internature\Venera\Venera\bin\Debug\DbExtensions.dll
+E:\Программирование\Internature\Venera\Venera\bin\Debug\MySql.Data.dll
+E:\Программирование\Internature\Venera\Venera\obj\Debug\Venera.exe
+E:\Программирование\Internature\Venera\Venera\obj\Debug\Venera.pdb
