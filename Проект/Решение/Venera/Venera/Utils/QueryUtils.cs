@@ -17,7 +17,7 @@ namespace Venera.Utils {
 				"Database=marketplace;"+
 				"port=3306;"+
 				"User Id=root;"+
-				"password=root"	
+				"password=fkby2002"	
 			);
 
 		}
@@ -108,6 +108,7 @@ namespace Venera.Utils {
 			if (FoundEmailReader.HasRows)
 				Result = false;
 
+			FoundEmailReader.Close();
 			conn.Close();
 
 			return Result;
@@ -125,5 +126,12 @@ namespace Venera.Utils {
 			return ImgBytes;
 		}
 	
+		// Конвертирование массива байт в изображения
+		public static Image GetImageFromByteArray(byte[] bytes) {
+
+			return (Image)new ImageConverter().ConvertFrom(bytes);
+
+		}
+
 	}
 }

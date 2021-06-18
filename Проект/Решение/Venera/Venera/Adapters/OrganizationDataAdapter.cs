@@ -11,6 +11,7 @@ namespace Venera.Adapters {
 		public MySqlConnection Conn { get; private set; }
 		public int Id { get; private set; }
 		public string Name { get; private set; }
+		public string About { get; private set; }
 		public string Email { get; private set; }
 		public string Phone { get; private set; }
 		public Image Img { get; private set; }
@@ -53,6 +54,8 @@ namespace Venera.Adapters {
 
 			Id = LastIdReader.GetInt32("id");
 
+			LastIdReader.Close();
+
 			Conn.Close();
 
 			GetData(Id);
@@ -78,9 +81,40 @@ namespace Venera.Adapters {
 
 		}
 		
-
+													// Получение данных о организации
 		public bool GetData(int id) { 
-			return true;
+
+			MySqlCommand Query = Conn.CreateCommand();
+			Query.CommandText = "select * from organization where id = @id";
+
+			Query.Parameters.Add("id", MySqlDbType.Int32).Value = id;
+
+			bool Result = true;
+
+			Conn.Open();
+
+													// Выгрузка данных
+			MySqlDataReader QueryReader = Query.ExecuteReader();
+
+			if (QueryReader.HasRows) {
+
+				QueryReader.Read();
+
+				Id = id;
+				Name = QueryReader.GetString("name");
+				About = QueryReader.GetString("about");
+				Email = QueryReader.GetString("email");
+				Phone = QueryReader.GetString("phone");
+				Img = QueryUtils.GetImageFromByteArray((byte[])QueryReader["img"]);
+
+			} else
+				Result = false;
+
+
+			QueryReader.Close();
+			Conn.Close();
+
+			return Result;
 		}
 
 		// public FilterableBandAdapter GetIncomingOrders() { }

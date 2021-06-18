@@ -111,12 +111,13 @@ namespace Venera.Adapters {
 		}
 
 													// Получение данных пользователя
+													// И его организации
 		public bool GetData(int id) {
 			
 													// Составление запроса
 			MySqlCommand SelectQuery = Conn.CreateCommand();
 			SelectQuery.CommandText = 
-				"select u.name, u.email, r.name as role_name, u.reg_date, oc.organization_id " + 
+				"select u.name, u.email, r.name as role_name, u.reg_date, oc.organization_id as org_id " + 
 				"from " + 
 					"user u inner join user_role r on u.role_id = r.id " +
  					"left join organization_content oc on u.id = oc.user_id " +
@@ -145,14 +146,13 @@ namespace Venera.Adapters {
 													// Если есть организация,
 													// считывание информации о ней
 				if (!SelectReader.IsDBNull(4)) {
-					/*
-					OrgId = SelectReader.GetInt32("ord_id");
-
 					
-					Organization = new OrganizationDataAdapter();
-					if (!Oganization.GetData(OrgId))
+					OrgId = SelectReader.GetInt32("org_id");
+
+					Organization = new OrganizationDataAdapter(Conn);
+					if (!Organization.GetData(OrgId))
 						Organization = null;
-					*/
+					
 				}
 
 			} else
@@ -164,7 +164,8 @@ namespace Venera.Adapters {
 			return Result;
 			
 		}
-
+		
+		/*
 		public void Update (string name, string pass) {
 		
 		}
@@ -172,6 +173,6 @@ namespace Venera.Adapters {
 		public void IncreaseRole() {
 		
 		}
-
+		*/
 	}
 }

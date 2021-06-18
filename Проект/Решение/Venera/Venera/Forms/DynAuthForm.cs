@@ -7,6 +7,10 @@ using Venera.Adapters;
 using Venera.Forms;
 using Venera.Utils;
 
+
+using Venera.Adapters.BandAdapters;
+using DbExtensions;
+
 namespace Venera.Forms {
 	class DynAuthForm : DynForm{
 

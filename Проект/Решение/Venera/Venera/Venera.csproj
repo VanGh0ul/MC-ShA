@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\BandAdapters\BandAdapter.cs" />
     <Compile Include="Adapters\OrganizationDataAdapter.cs" />
     <Compile Include="Adapters\UserDataAdapter.cs" />
     <Compile Include="FMain.cs">
@@ -63,14 +64,36 @@
     <Compile Include="Forms\DynAuthForm.cs" />
     <Compile Include="Forms\DynForm.cs" />
     <Compile Include="Forms\DynOrgCreationForm.cs" />
+    <Compile Include="Forms\DynProductsBandForm.cs" />
     <Compile Include="Forms\DynRegisterForm.cs" />
     <Compile Include="NewComponents\BackNextButtons.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\BandElement.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\IdBasedPanelList.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NewComponents\OpenImageString.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NewComponents\OrganizationIdBasedPanelList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\Paginator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\PanelList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="NewComponents\PasswordField.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\ProductBand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewComponents\UserIdBasedPanelList.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
