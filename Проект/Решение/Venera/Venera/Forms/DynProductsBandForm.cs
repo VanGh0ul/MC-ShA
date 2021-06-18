@@ -469,23 +469,6 @@ namespace Venera.Forms {
 
 			};
 
-
-			/*
-
-			Button AddButton = new Button();
-			AddButton.Text = "Добавить";
-			AddButton.Size = new Size(70, 20);
-
-			AddButton.Click += delegate(Object s, EventArgs evArgs) {
-				OpenFileDialog Ofd = new OpenFileDialog();
-				if(Ofd.ShowDialog() == DialogResult.OK)
-					Band.AddElement(new BandElement(1, Image.FromFile(Ofd.FileName), "Anime Girls", "Price: Love", "Count: 0", "Added: 2021-01-01", "No organization"));
-			};
-
-			Result.Controls.Add(AddButton, 6, 0);
-
-			*/
-
 			return Result;
 
 		}
